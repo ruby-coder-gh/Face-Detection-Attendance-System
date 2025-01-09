@@ -320,11 +320,12 @@ class Student:
          
          scroll_x = Scrollbar(table_frame,orient=HORIZONTAL)
          scroll_y = Scrollbar(table_frame,orient=VERTICAL)
-         self.student_table = ttk.Treeview(table_frame,columns=("dep","course","year","sem","id","name","div","roll","gen","dob","email","phone","add","teacher","photo"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set )
+         self.student_table = ttk.Treeview(table_frame,columns=("student_id","dep","course","year","sem","id","name","div","roll","gen","dob","email","phone","add","teacher","photo"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set )
          scroll_x.pack(side=BOTTOM,fill=X)
          scroll_y.pack(side=RIGHT,fill=Y)
          scroll_x.config(command=self.student_table.xview)
          scroll_y.config(command=self.student_table.yview)
+         self.student_table.heading("student_id",text="Student ID")
          self.student_table.heading("dep",text="Department")
          self.student_table.heading("course",text="Course")
          self.student_table.heading("year",text="Year")
@@ -343,6 +344,7 @@ class Student:
 
          self.student_table["show"]="headings"
 
+         self.student_table.column("student_id",width=100)
          self.student_table.column("dep",width=100)
          self.student_table.column("course",width=100)
          self.student_table.column("year",width=100)
