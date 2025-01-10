@@ -177,6 +177,12 @@ class Student:
          Class_div_entry = ttk.Entry(curren_course_frame,textvariable=self.var_div,width=20, font=("times new roman ",12, "bold"))
          Class_div_entry.grid(row=1,column=1,padx=2,pady=10,sticky=W)
 
+         Class_Div_combo=ttk.Combobox(curren_course_frame,textvariable=self.var_div,font=("times new roman ",12, "bold"),width=19, state="readonly")
+         Class_Div_combo["values"]=("Select Division","A","B","C","D")
+         Class_Div_combo.current(0)
+         Class_Div_combo.grid(row=1,column=1,padx=2,pady=10,sticky=W)
+         
+
 
          # Roll No
 
@@ -191,8 +197,14 @@ class Student:
          Gender_label = Label(curren_course_frame,text="Gender", font=("times new roman", 12, "bold"), bg="white")
          Gender_label.grid(row=2, column=0, padx=10,pady=10,sticky=W)
 
-         Gender_entry = ttk.Entry(curren_course_frame,textvariable=self.var_gender,width=20, font=("times new roman ",12, "bold"))
-         Gender_entry.grid(row=2,column=1,padx=2,pady=10,sticky=W)
+        #  Gender_entry = ttk.Entry(curren_course_frame,textvariable=self.var_gender,width=20, font=("times new roman ",12, "bold"))
+        #  Gender_entry.grid(row=2,column=1,padx=2,pady=10,sticky=W)
+
+         Gender_combo = ttk.Combobox(curren_course_frame,textvariable=self.var_gen,font=("times new roman ",12, "bold",),width=19, state="readonly")
+         Gender_combo["values"] = ("Select Gender", "Male", "Female", "Other")
+         Gender_combo.current(0)
+         Gender_combo.grid(row=2,column=1,padx=2,pady=10,sticky=W)
+
 
          # DOB
 
@@ -362,6 +374,7 @@ class Student:
          self.student_table.column("photo",width=140)
         
          self.student_table.pack(fill=BOTH,expand=1)
+         self.student_table.bind("<ButtonRelease-1>",self.get_cursor)
 
     #function to fetch data from database
 
@@ -432,6 +445,29 @@ class Student:
         self.var_address.set("")
         self.var_teacher.set("")
         self.var_radio.set("")
+
+    #get cursor
+
+    def get_cursor(self,event=""):
+        cursor_focus=self.student_table.focus()
+        content=self.student_table.item(cursor_focus)
+        row=content["values"]
+        self.var_dep.set(row[0])
+        self.var_course.set(row[1])
+        self.var_year.set(row[2])
+        self.var_semester.set(row[3])
+        self.var_std_id.set(row[4])
+        self.var_std_name.set(row[5])
+        self.var_div.set(row[6])
+        self.var_roll.set(row[7])
+        self.var_gender.set(row[8])
+        self.var_dob.set(row[9])
+        self.var_email.set(row[10])
+        self.var_phone.set(row[11])
+        self.var_address.set(row[12])
+        self.var_teacher.set(row[13])
+        self.var_radio.set(row[14])
+
 
 
 if __name__ == "__main__":

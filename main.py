@@ -150,6 +150,8 @@ class Face_Recognition_System:
              self.new_window = Toplevel(self.root)
              self.app = Student(self.new_window)
 
+     
+
 if __name__ == "__main__":
     root = Tk()
     obj = Face_Recognition_System(root)
