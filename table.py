@@ -7,12 +7,13 @@ cursor = conn.cursor()
 # Create table with the updated column name 'student_id'
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS student (
-    student_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    
     dep TEXT NOT NULL,
     course TEXT NOT NULL,
     year TEXT NOT NULL,
     semester TEXT NOT NULL,
+    student_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
     div TEXT NOT NULL,
     id TEXT NOT NULL,
     roll INTEGER NOT NULL,

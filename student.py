@@ -266,7 +266,7 @@ class Student:
          save_btn = Button(btn_frame, text="Save",command=self.add_data, font=("times new roman", 12, "bold"), bg="blue", fg="white", width=23)
          save_btn.grid(row=0,column=0)
 
-         update_btn = Button(btn_frame, text="Update", font=("times new roman", 12, "bold"), bg="blue", fg="white", width=24)
+         update_btn = Button(btn_frame, text="Update",command=self.update_data, font=("times new roman", 12, "bold"), bg="blue", fg="white", width=24)
          update_btn.grid(row=0,column=1)
 
          reset_btn = Button(btn_frame, text="Reset", font=("times new roman", 12, "bold"), bg="blue", fg="white", width=24)
@@ -332,12 +332,12 @@ class Student:
          
          scroll_x = Scrollbar(table_frame,orient=HORIZONTAL)
          scroll_y = Scrollbar(table_frame,orient=VERTICAL)
-         self.student_table = ttk.Treeview(table_frame,columns=("student_id","dep","course","year","sem","id","name","div","roll","gen","dob","email","phone","add","teacher","photo"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set )
+         self.student_table = ttk.Treeview(table_frame,columns=("dep","course","year","sem","id","name","div","roll","gen","dob","email","phone","add","teacher","photo"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set )
          scroll_x.pack(side=BOTTOM,fill=X)
          scroll_y.pack(side=RIGHT,fill=Y)
          scroll_x.config(command=self.student_table.xview)
          scroll_y.config(command=self.student_table.yview)
-         self.student_table.heading("student_id",text="Student ID")
+
          self.student_table.heading("dep",text="Department")
          self.student_table.heading("course",text="Course")
          self.student_table.heading("year",text="Year")
@@ -356,7 +356,7 @@ class Student:
 
          self.student_table["show"]="headings"
 
-         self.student_table.column("student_id",width=100)
+
          self.student_table.column("dep",width=100)
          self.student_table.column("course",width=100)
          self.student_table.column("year",width=100)
@@ -467,6 +467,48 @@ class Student:
         self.var_address.set(row[12])
         self.var_teacher.set(row[13])
         self.var_radio.set(row[14])
+
+    def update_data(self):
+        if self.var_dep.get() == "" or self.var_std_id.get() == "" or self.var_std_name.get() == "":
+            messagebox.showerror("Error", "All fields are required!", parent=self.root)
+        else:
+            try:
+                Update = messagebox.askyesno("Update", "Do you want to update this record?", parent=self.root)
+                if Update > 0:
+                    conn = sqlite3.connect("student.db")
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        "UPDATE student SET dep=?, course=?, year=?, semester=?, id=?, name=?, div=?, roll=?, gender=?, dob=?, email=?, phone=?, address=?, teacher=?, photo=? WHERE student_id=?",
+                        (
+                            self.var_dep.get(),
+                            self.var_course.get(),
+                            self.var_year.get(),
+                            self.var_semester.get(),
+                            self.var_std_id.get(),
+                            self.var_std_name.get(),
+                            self.var_div.get(),
+                            self.var_roll.get(),
+                            self.var_gender.get(),
+                            self.var_dob.get(),
+                            self.var_email.get(),
+                            self.var_phone.get(),
+                            self.var_address.get(),
+                            self.var_teacher.get(),
+                            self.var_radio.get(),
+                            self.var_std_id.get(),
+                        ),
+                    )
+                    conn.commit()
+                    conn.close()
+                    self.fetch_data()  # Refresh table
+                    messagebox.showinfo("Success", "Record has been updated successfully", parent=self.root)
+                    self.reset()
+                else:
+                    if not Update:
+                        return
+            except Exception as e:
+                messagebox.showerror("Error", f"Error while updating record: {e}", parent=self.root)
+
 
 
 
